@@ -2,6 +2,7 @@ import { ApiError } from "../../utils/ApiError.js"
 import bcrypt from "bcrypt"
 import userService from "../user/user.service.js"
 import jwt from "jsonwebtoken"
+import User from "../user/user.model.js"
 class AuthService {
   async register(data) {
     const { name, email, password } = data
@@ -36,7 +37,10 @@ class AuthService {
       throw new ApiError(400, "all fields are require")
     }
 
-    const existing = await userService.findByEmail(email)
+    const existing = await User.scope("withPassword").findOne({
+      where: { email }
+    })
+    
     if (!existing) {
       throw new ApiError(404, "User does not exists!")
     }

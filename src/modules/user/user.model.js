@@ -1,39 +1,51 @@
 import { DataTypes, ENUM } from "sequelize";
 import sequelize from "../../config/db.js";
 
-const User=sequelize.define(
+const User = sequelize.define(
   "User",
   {
-    id:{
-      type:DataTypes.UUID,
-      defaultValue:DataTypes.UUIDV4,
-      primaryKey:true
+    id: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
+      primaryKey: true
     },
-    name:{
-      type:DataTypes.STRING(100),
-      allowNull:false
+    name: {
+      type: DataTypes.STRING(100),
+      allowNull: false
     },
-    email:{
-      type:DataTypes.STRING(150),
-      allowNull:false,
-      unique:true,
-      validate:{
-        isEmail:true
+    email: {
+      type: DataTypes.STRING(150),
+      allowNull: false,
+      unique: true,
+      validate: {
+        isEmail: true
       }
     },
-    password:{
-      type:DataTypes.STRING,
-      allowNull:false
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false
     },
-    role:{
-      type:DataTypes.ENUM("user","admin"),
-      allowNull:false,
-      defaultValue:"user"
+    role: {
+      type: DataTypes.ENUM("user", "admin"),
+      allowNull: false,
+      defaultValue: "user"
     }
   },
   {
-    tableName:'users',
-    timestamps:true
+    tableName: 'users',
+    timestamps: true,
+    
+    // 🔥 Automatically hide password
+    defaultScope: {
+      attributes: { exclude: ["password"] },
+    },
+
+    // 🔥 Use this only when you need password (login)
+    scopes: {
+      withPassword: {
+        attributes: {},
+      },
+    }
   }
 )
 

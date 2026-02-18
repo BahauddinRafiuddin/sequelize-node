@@ -5,6 +5,7 @@ class UserService {
   async createUser(data) {
     return await User.create(data)
   }
+  
   // Find By Email
   async findByEmail(email) {
     return await User.findOne({ where: { email } })
@@ -17,7 +18,9 @@ class UserService {
 
   // find all users
   async findALl() {
-    return await User.findAll()
+    return await User.findAll({
+      where: { role: 'user' }
+    })
   }
 
   // update user
