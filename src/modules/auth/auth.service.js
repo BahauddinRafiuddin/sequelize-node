@@ -27,7 +27,8 @@ class AuthService {
       id: createdUser.id,
       name: createdUser.name,
       email: createdUser.email,
-      role: createdUser.role
+      role: createdUser.role,
+      createdUser
     }
   }
 
