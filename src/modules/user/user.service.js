@@ -1,3 +1,4 @@
+import Task from "../task/task.model.js";
 import User from "./user.model.js";
 
 class UserService {
@@ -5,7 +6,7 @@ class UserService {
   async createUser(data) {
     return await User.create(data)
   }
-  
+
   // Find By Email
   async findByEmail(email) {
     return await User.findOne({ where: { email } })
@@ -32,6 +33,13 @@ class UserService {
   // delete user
   async delete(id) {
     return await User.destroy({ where: { id } })
+  }
+
+  async userTask(id) {
+    return await User.findAll({
+      where: { id },
+      include: { model: Task }
+    })
   }
 
 }

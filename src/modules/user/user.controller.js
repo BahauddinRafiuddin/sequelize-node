@@ -82,3 +82,15 @@ export const updateUser = async (req, res, next) => {
     next(error)
   }
 }
+
+export const getAllUserTasks = async (req, res, next) => {
+  try {
+    const result = await userService.userTask(req.user.id)
+    return res.status(200).json({
+      success: true,
+      result
+    })
+  } catch (error) {
+    next(error)
+  }
+}
