@@ -16,6 +16,9 @@ class TaskService {
   async getTasks(currentUser) {
     if (currentUser.role === 'admin') {
       return await Task.findAll()
+//       return await Task.findAll({
+//   paranoid: false
+// });
     }
 
     // Normal User Tasks

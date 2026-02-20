@@ -1,3 +1,4 @@
+import { Op } from "sequelize";
 import Task from "../task/task.model.js";
 import User from "./user.model.js";
 
@@ -36,12 +37,32 @@ class UserService {
   }
 
   async userTask(id) {
-    return await User.findAll({
+    return await User.findOne({
       where: { id },
       include: { model: Task }
     })
   }
 
+  async adminDashboardData() {
+    const totalTask = await Task.count()
+    const totalUser = await User.count({
+      where: {
+        role: { [Op.ne]: ['admin'] }
+      }
+    })
+    const completedTasks = await Task.count({
+      where: {
+        status: { [Op.eq]: ['completed'] }
+      }
+    })
+    const pendingTasks = await Task.count({
+      where: {
+        status: { [Op.eq]: ['pending'] }
+      }
+    })
+
+    return { totalTask, totalUser, completedTasks, pendingTasks }
+  }
 }
 
 export default new UserService()

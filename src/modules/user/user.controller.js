@@ -94,3 +94,16 @@ export const getAllUserTasks = async (req, res, next) => {
     next(error)
   }
 }
+
+export const adminDashboardStatus = async (req, res, next) => {
+  try {
+    const data = await userService.adminDashboardData()
+    return res.status(200).json({
+      success: true,
+      message: "Data Fetched Suceessfully",
+      data
+    })
+  } catch (error) {
+    next(error)
+  }
+}
